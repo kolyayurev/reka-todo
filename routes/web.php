@@ -20,3 +20,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::group(['prefix' => 'ajax','as'=>'ajax.','namespace'=>'App\Http\Controllers\Ajax'],function() {
+    Route::group(['prefix' => 'todo','as'=>'todo.'],function() {
+        Route::get('board', 'TodoController@board')->name('board');
+        Route::group(['prefix' => 'card','as'=>'card.'],function() {
+            Route::post('/', 'TodoController@cardStore')->name('store');
+            Route::delete('/{id}', 'TodoController@cardDelete')->name('delete');
+        });
+
+    });
+});
