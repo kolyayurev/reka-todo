@@ -19,7 +19,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ card.name }}</h5>
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="button" class="btn btn-warning" @click="editCard(card.id)">Редактировать</button>
+                                            <button type="button" class="btn btn-warning" @click="editCard(card.id)" disabled>Редактировать</button>
                                             <button type="button" class="btn btn-danger" @click="deleteCard(card.id)">Удалить</button>
                                         </div>
                                     </div>
@@ -80,16 +80,6 @@ export default {
 
     mounted() {
         this.loadBoard()
-
-        // const toastTrigger = document.getElementById('liveToastBtn')
-        // const toastLiveExample = document.getElementById('liveToast')
-        // if (toastTrigger) {
-        // toastTrigger.addEventListener('click', () => {
-        //     const toast = new Toast(toastLiveExample)
-
-        //     toast.show()
-        // })
-        // }
     },
     methods:{
         loadBoard(){
