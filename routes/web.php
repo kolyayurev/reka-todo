@@ -17,7 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes([
+    'reset' => false,
+]);
 
 Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'App\Http\Controllers'],function() {
     Route::get('/', 'TodoController@index')->name('index');
