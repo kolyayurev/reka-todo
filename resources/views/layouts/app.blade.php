@@ -52,7 +52,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('todo.index') }}">
-                                        {{ __('Мои доски') }}
+                                        {{ __('Доски') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -75,5 +75,7 @@
             @yield('content')
         </main>
     </div>
+    @stack('scripts')
+
 </body>
 </html>

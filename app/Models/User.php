@@ -43,4 +43,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Board::class);
     }
+    public function otherBoards()
+    {
+        return $this->belongsToMany(Board::class);
+    }
 }

@@ -6,12 +6,11 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Главная</a></li>
           <li class="breadcrumb-item"><a href="{{ route('todo.index') }}">Доски</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ $board->name }}</li>
+          <li class="breadcrumb-item active" aria-current="page">Разрещения для доски "{{ $board->name }}"</li>
         </ol>
     </nav>
-    <hr>
     <div id="app" v-cloak> 
-        <v-board></v-board>
+        <v-permissions></v-permissions>
     </div>
 </div>
 @endsection

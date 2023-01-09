@@ -31,6 +31,14 @@ class TodoController extends Controller
 
     public function board($id)
     {
-        return view('todo.board');
+        $board = Board::findOrFail($id);
+
+        return view('todo.board',compact('board'));
+    }
+    public function permissions($id)
+    {
+        $board = Board::findOrFail($id);
+
+        return view('todo.permissions',compact('board'));
     }
 }

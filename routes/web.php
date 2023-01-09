@@ -24,13 +24,14 @@ Auth::routes([
 Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'App\Http\Controllers'],function() {
     Route::get('/', 'TodoController@index')->name('index');
     Route::get('/board/{id}', 'TodoController@board')->name('board');
+    Route::get('/board/{id}/permissions', 'TodoController@permissions')->name('board.permissions');
 });
 
 
 
 Route::group(['prefix' => 'ajax','as'=>'ajax.','namespace'=>'App\Http\Controllers\Ajax'],function() {
     Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'Todo'],function() {
-        Route::get('board', 'BoardController@board')->name('board');
+        Route::get('board/{id}', 'BoardController@show')->name('show');
         Route::group(['prefix' => 'card','as'=>'card.'],function() {
             Route::post('/', 'CardController@store')->name('store');
             Route::post('/{id}', 'CardController@update')->name('update');

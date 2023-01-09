@@ -4,18 +4,18 @@ export default{
     mixins: [messages],
     data(){
         return{
-            prLoading: true,
+            loading: true,
         }
     },
     mounted(){
-        this.prLoading = false
+        this.loading = false
     },
     methods:{
         startLoading(){
-            this.prLoading = true
+            this.loading = true
         },
         stopLoading(){
-            this.prLoading = false
+            this.loading = false
         },
         postAxios(url,data,
             successCallback     = (r) => { this.successMsg(); },
@@ -87,6 +87,7 @@ export default{
                     finallyCallback()
                 }) 
         },
+       
         getAxios(url,data,
             successCallback     = (r) => { this.successMsg(); },
             validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},

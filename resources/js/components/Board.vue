@@ -2,13 +2,10 @@
     <div class="container" >
         <div class="row justify-content-start">
             <div class="col">
-                <transition name="fade">
-                <div class="text-center" v-if="0">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Загрузка...</span>
-                    </div>
-                </div>
-                <div class="row" v-else>
+                <v-loading :status="loading"></v-loading>
+
+
+                <div class="row" >
                     <div class="col-md-12 col-lg-6 col-xl-4"  v-for="list in board.lists" :key="list.id">
                         <div class="card">
                             <div class="card-header">
@@ -64,7 +61,6 @@
                         </div>
                     </div>
                 </div>
-                </transition>
             </div>
           
         </div>
@@ -188,7 +184,7 @@ export default {
         },
         loadBoard(){
             var _this = this;
-            this.getAxios('/ajax/todo/board', {}, function (response) {
+            this.getAxios('/ajax/todo/board/'+boardId, {}, function (response) {
                 _this.board = response.data.board;
                 _this.tagForm.board_id = response.data.board.id;
             });
@@ -303,16 +299,24 @@ export default {
 </script>
 
 <style lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+.loading-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease;
+    background-color: rgba( #ffffff,.9);
+    opacity: .5;
+    z-index:3;
+    padding: 5px;
+
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 
-}
 .tag{
     cursor: pointer;
 }

@@ -21,8 +21,14 @@ const app = createApp({});
 app.use(BV);
 app.mixin(Base);
 
-import Todo from './components/Todo.vue';
-app.component('todo', Todo);
+import Loading from './components/Loading.vue';
+app.component('v-loading', Loading);
+
+import Board from './components/Board.vue';
+app.component('v-board', Board);
+
+import Permissions from './components/Permissions.vue';
+app.component('v-permissions', Permissions);
 
 
 app.mount('#app');
