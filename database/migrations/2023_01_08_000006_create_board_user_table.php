@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('board_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('permission', ['read', 'write']);
-            $table->timestamps();
 
             $table->foreign('board_id')->references('id')->on('boards')->onUpdate('cascade')->cascadeOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->cascadeOnDelete();

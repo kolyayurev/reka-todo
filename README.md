@@ -1,3 +1,10 @@
+## Requirements
+
+- php 8.1
+- composer
+- docker 
+- docker-compose
+
 ## Start
 
 ```

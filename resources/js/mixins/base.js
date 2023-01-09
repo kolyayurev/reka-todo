@@ -52,6 +52,41 @@ export default{
                     finallyCallback()
                 }) 
         },
+        putAxios(url,data,
+            successCallback     = (r) => { this.successMsg(); },
+            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},
+            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.message);},
+            defaultCallback     = (r) => { this.warningMsg(); },
+            catchCallback       = (e) => { this.errorMsg(); },
+            finallyCallback     = (r) => {}
+        ){
+            this.startLoading()
+
+            axios
+                .put(url, data)
+                .then(response => {
+                    switch (response.data.status) {
+                        case 'success':
+                            successCallback(response)
+                            break;
+                        case 'validation':
+                            validationCallback(response)
+                            break;
+                        case 'error':
+                            errorCallback(response)
+                            break;
+                        default:
+                            defaultCallback(response)
+                    }
+                })
+                .catch(error => {
+                    catchCallback(error)
+                })
+                .finally(res =>  {
+                    this.stopLoading()
+                    finallyCallback()
+                }) 
+        },
         getAxios(url,data,
             successCallback     = (r) => { this.successMsg(); },
             validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},

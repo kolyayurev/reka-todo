@@ -16,7 +16,7 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $board = Board::create(['user_id'=>$user->id]);
+        $board = Board::create(['name' => __('defaults.board_name'),'user_id'=>$user->id]);
         ListModel::create(['name' => __('defaults.list_name'),'board_id'=>$board->id]);
     }
 

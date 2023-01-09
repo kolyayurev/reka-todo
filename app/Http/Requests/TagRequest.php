@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 
-class CardRequest extends BaseRequest
+class TagRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,7 @@ class CardRequest extends BaseRequest
     {
         return [
             'name' => 'required|string|max:255', 
-            'description' => 'nullable|string|max:1024',
-            'photo' => 'nullable', 
-            'list_id' => 'required|numeric', 
-            'tags.*.name' => 'required|string|max:255',
-            'tags.*.board_id' => 'required|numeric',
+            'board_id' => 'required|numeric', 
         ];
     }
     /**
@@ -48,9 +44,7 @@ class CardRequest extends BaseRequest
     {
         return [
             'name' => 'Имя',
-            'description' => 'Описание',
-            'photo' => 'Фотография',
-            'list_id' => 'Список',
+            'board_id' => 'Доска',
         ];
     }
 }

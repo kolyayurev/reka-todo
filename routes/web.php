@@ -19,16 +19,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'App\Http\Controllers'],function() {
+    Route::get('/', 'TodoController@index')->name('index');
+    Route::get('/board/{id}', 'TodoController@board')->name('board');
+});
+
 
 
 Route::group(['prefix' => 'ajax','as'=>'ajax.','namespace'=>'App\Http\Controllers\Ajax'],function() {
-    Route::group(['prefix' => 'todo','as'=>'todo.'],function() {
-        Route::get('board', 'TodoController@board')->name('board');
+    Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'Todo'],function() {
+        Route::get('board', 'BoardController@board')->name('board');
         Route::group(['prefix' => 'card','as'=>'card.'],function() {
-            Route::post('/', 'TodoController@cardStore')->name('store');
-            Route::delete('/{id}', 'TodoController@cardDelete')->name('delete');
+            Route::post('/', 'CardController@store')->name('store');
+            Route::post('/{id}', 'CardController@update')->name('update');
+            Route::put('/{id}/done', 'CardController@done')->name('done');
+            Route::put('/{id}/undone', 'CardController@undone')->name('undone');
+            Route::delete('/{id}', 'CardController@delete')->name('delete');
         });
-
     });
 });

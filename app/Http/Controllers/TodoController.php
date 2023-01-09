@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Board;
+
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class TodoController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $boards = Board::byUser()->get();
+        return view('todo.index',compact('boards'));
+    }
+
+    public function board($id)
+    {
+        return view('todo.board');
     }
 }
