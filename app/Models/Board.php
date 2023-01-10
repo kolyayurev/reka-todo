@@ -9,10 +9,6 @@ class Board extends Model
     protected $fillable = ['name','user_id'];
 
 
-    public function scopeByUser($query)
-    {
-        return $query->where('user_id', auth()->id());
-    }
     
     public function user()
     {
