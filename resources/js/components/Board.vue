@@ -227,21 +227,15 @@ export default {
             let formData = new FormData(this.$refs.cardForm);
             formData.set('tags', JSON.stringify(this.cardForm.tags));
 
-            if(this.isEdit)
-            this.postAxios('/ajax/todo/card/'+this.cardForm.id, formData, function (response) {
+            this.postAxios(this.isEdit?'/ajax/todo/card/'+this.cardForm.id:'/ajax/todo/card/', formData, function (response) {
                 _this.closeCardDialog();
                 _this.clearCardForm();
                 _this.clearTagForm();
-                _this.disableEditMode();
-                _this.loadBoard()
+                if(_this.isEdit)
+                    _this.disableEditMode();
+                _this.loadBoard();
             });
-            else
-            this.postAxios('/ajax/todo/card/',formData , function (response) {
-                _this.closeCardDialog();
-                _this.clearCardForm();
-                _this.clearTagForm();
-                _this.loadBoard()
-            });
+          
         },
         async submitTagForm(){
             const valid = await this.v$.tagForm.$validate()
@@ -328,9 +322,7 @@ export default {
         position: relative;
         width: 150px;
         height: 150px;
-        &__img{
 
-        }
         &__remove-button{
             position: absolute;
             top:0;

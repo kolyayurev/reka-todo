@@ -26,7 +26,9 @@ class TodoController extends Controller
     public function index()
     {
         $boards = Board::byUser()->get();
-        return view('todo.index',compact('boards'));
+        $guestBoards = auth()->user()->guestBoards()->with(['user'=>function($q){$q->select('id','email');}])->get();
+
+        return view('todo.index',compact('boards','guestBoards'));
     }
 
     public function board($id)

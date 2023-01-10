@@ -29,4 +29,10 @@ class Board extends Model
         return $this->hasMany(Tag::class);
     }
     
+    public function guests()
+    {
+        return $this->belongsToMany(User::class,'board_user')
+        // ->using(Permission::class)
+        ->withPivot('read','write');
+    }
 }

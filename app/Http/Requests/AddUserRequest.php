@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 
-class TagRequest extends BaseRequest
+class AddUserRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +26,7 @@ class TagRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255', 
-            'board_id' => 'required|numeric', 
+            'email' => ['bail','required', 'email',Rule::notIn([auth()->user()->email]),'exists:users'], 
         ];
     }
     /**
@@ -37,14 +37,15 @@ class TagRequest extends BaseRequest
     public function messages()
     {
         return [
+            'exists' => 'Такого пользователя нет',
+            'not_in' => 'Вы не можете добавить сами себя',
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => 'Имя',
-            'board_id' => 'Доска',
+            'email' => 'E-mail',
         ];
     }
 }

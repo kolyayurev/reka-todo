@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 class CardController extends Controller
 {
    
-    public function upload($request,$field,$model) : string | null
+    protected function upload($request,$field,$model) : string | null
     {
         if ($request->hasFile($field)) {
 

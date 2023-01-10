@@ -18,6 +18,7 @@ import Base from './mixins/base';
 
 const app = createApp({});
 
+
 app.use(BV);
 app.mixin(Base);
 

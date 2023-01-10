@@ -10,7 +10,7 @@
     </nav>
     <h2> Мои доски</h2>
     <hr>
-    <div class="row">
+    <div class="row mb-5">
         @forelse ($boards as $board)
         <div class="col-4">
             <div class="card">
@@ -25,10 +25,33 @@
         </div>
         @empty
         <div class="col-4">
+            <div class="card">
+                У вас ещё нет досок
+            </div>
+        </div>
+        @endforelse
+    </div>
+    @if(count($guestBoards))
+    <h2> Гостевые доски</h2>
+    <hr>
+    <div class="row">
+        @forelse ($guestBoards as $board)
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ $board->name }} ({{ $board->user->email }})
+                </div>
+                <div class="card-body">
+                    <a href="{{ route('todo.board',$board->id) }}" class="btn btn-primary mb-1 me-1">Открыть</a>
+                </div>
+            </div>
+        </div>
+        @empty
+        <div class="col-4">
 
         </div>
         @endforelse
-      
     </div>
+    @endif
 </div>
 @endsection

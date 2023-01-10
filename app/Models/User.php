@@ -43,7 +43,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Board::class);
     }
-    public function otherBoards()
+    public function guestBoards()
     {
         return $this->belongsToMany(Board::class);
     }
