@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Board;
+use App\Repositories\UserRepository;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
@@ -14,20 +15,18 @@ class TodoController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        private UserRepository $userRepository
+    )
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        $boards = Board::byUser()->get();
-        $guestBoards = auth()->user()->guestBoards()->where(['read'=>true])->with(['user'=>function($q){$q->select('id','email');}])->get();
+        $boards = $this->userRepository->getMyBoard();
+
+        $guestBoards = $this->userRepository->getGuestBoard();
 
         return view('todo.index',compact('boards','guestBoards'));
     }

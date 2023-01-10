@@ -9,6 +9,7 @@ use Validator;
 use App\Models\{Board,User};
 use App\Http\Controllers\Controller;
 use App\Http\Requests\{AddUserRequest,ChangeRequest};
+use App\Repositories\BoardRepository;
 
 
 use Illuminate\Http\Request;
@@ -16,23 +17,18 @@ use Illuminate\Http\Request;
 class BoardController extends Controller
 {
    
+    public function __construct(
+        private BoardRepository $boardRepository
+    )
+    {
+        $this->middleware('auth');
+    }
+
     public function show(Request $request,$id)
     {
         try {
 
-            $board = Board::select('id','name')
-                            ->with(
-                                ['lists'=>function($q){
-                                    $q->select('id','name','board_id')
-                                    ->with(['cards'=>function($q){
-                                        $q->select('id','name','description','done','photo','list_id')
-                                        ->with(['tags'=>function($q){$q->select('tags.id','name','board_id');}]);
-                                    }]);
-                                },
-                                'tags'=>function($q){ $q->select('id','name','board_id'); }
-                                ]
-                            )
-                            ->find($id);
+            $board = $this->boardRepository->getForShow($id,['id','name']);
 
             return response()->json([
                 'status' => 'success',
@@ -48,10 +44,8 @@ class BoardController extends Controller
     public function permissions(Request $request,$id)
     {
         try {
+            $board = $this->boardRepository->getPermissions($id,['id','name']);
 
-            $board = Board::select('id','name')->with(['guests'=>function($q){$q->select('users.id','email');}])->find($id);
-
-           
             return response()->json([
                 'status' => 'success',
                 'board' => $board,
