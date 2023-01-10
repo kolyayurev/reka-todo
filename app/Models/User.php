@@ -45,6 +45,6 @@ class User extends Authenticatable
     }
     public function guestBoards()
     {
-        return $this->belongsToMany(Board::class);
+        return $this->belongsToMany(Board::class)->using(Permission::class);
     }
 }

@@ -20,17 +20,7 @@ export const messages = {
         this.msg(title,msg,'error',duration,offset);
     },
     msg(title='',msg='',type = 'info',duration = 2000,offset=0){
-      alert(title+' '+msg);
-      // this.$notify({
-      //   title: title,
-      //   message:  msg,
-      //   type: type,
-      //   duration: duration,
-      //   offset: offset,
-      //   onClick(){
-      //     this.close()
-      //   }
-      // })
+      alert(title+'. '+msg);
     },
     
   },

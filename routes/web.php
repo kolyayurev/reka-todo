@@ -31,17 +31,19 @@ Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'App\Http\Controller
 
 Route::group(['prefix' => 'ajax','as'=>'ajax.','namespace'=>'App\Http\Controllers\Ajax'],function() {
     Route::group(['prefix' => 'todo','as'=>'todo.','namespace'=>'Todo'],function() {
-        Route::get('board/{id}', 'BoardController@show')->name('show');
-        Route::get('board/{id}/permissions', 'BoardController@permissions')->name('permissions');
-        Route::put('board/{id}/permissions/add-guest', 'BoardController@addGuest')->name('permissions.guest.add');
-        Route::delete('board/{id}/permissions/{guest}', 'BoardController@deleteGuest')->name('permissions.guest.delete');
-        Route::put('board/{id}/permissions/{guest}/change', 'BoardController@change')->name('permissions.guest.change');
-        Route::group(['prefix' => 'card','as'=>'card.'],function() {
-            Route::post('/', 'CardController@store')->name('store');
-            Route::post('/{id}', 'CardController@update')->name('update');
-            Route::put('/{id}/done', 'CardController@done')->name('done');
-            Route::put('/{id}/undone', 'CardController@undone')->name('undone');
-            Route::delete('/{id}', 'CardController@delete')->name('delete');
+        Route::group(['prefix' => 'board/{board}','as'=>'board.'],function() {
+            Route::get('/', 'BoardController@show')->name('show');
+            Route::get('/permissions', 'BoardController@permissions')->name('permissions');
+            Route::put('/permissions/add-guest', 'BoardController@addGuest')->name('permissions.guest.add');
+            Route::delete('/permissions/{guest}', 'BoardController@deleteGuest')->name('permissions.guest.delete');
+            Route::put('/permissions/{guest}/change', 'BoardController@change')->name('permissions.guest.change');
+            Route::group(['prefix' => 'card','as'=>'card.'],function() {
+                Route::post('/', 'CardController@store')->name('store');
+                Route::post('/{id}', 'CardController@update')->name('update');
+                Route::put('/{id}/done', 'CardController@done')->name('done');
+                Route::put('/{id}/undone', 'CardController@undone')->name('undone');
+                Route::delete('/{id}', 'CardController@delete')->name('delete');
+            });
         });
     });
 });

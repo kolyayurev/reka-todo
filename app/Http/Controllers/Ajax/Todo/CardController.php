@@ -6,7 +6,7 @@ use DB;
 use Str;
 use Exception;
 
-use App\Models\{Card,Tag};
+use App\Models\{Board,Card,Tag};
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
 
@@ -14,10 +14,22 @@ use Facades\App\Helpers\File;
 
 use Intervention\Image\Facades\Image;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
+
+    protected function checkPermission($board) : bool | Exception
+    {
+        $board = Board::find($board);
+
+        if (!Gate::allows('write-board', $board)) {
+            throw new Exception(__('common.errors.permission_denied'));
+        }
+        return true;
+    }
+
    
     protected function upload($request,$field,$model) : string | null
     {
@@ -50,9 +62,12 @@ class CardController extends Controller
     }
 
     
-    public function store(CardRequest $request)
+    public function store(CardRequest $request, $board)
     {
         try {
+            
+            $this->checkPermission($board);
+
             DB::transaction(function()  use($request){
 
                 $card = Card::create($request->all());
@@ -77,9 +92,11 @@ class CardController extends Controller
             ], 200);
         }
     }
-    public function update(CardRequest $request,$id)
+    public function update(CardRequest $request,$board,$id)
     {
         try {
+
+            $this->checkPermission($board);
 
             DB::transaction(function()  use($request,$id){
 
@@ -122,9 +139,11 @@ class CardController extends Controller
         }
         $card->tags()->sync($tagIds);
     }
-    public function done(int $id)
+    public function done($board,int $id)
     {
         try {
+
+            $this->checkPermission($board);
 
             $card = Card::find($id);
            
@@ -141,9 +160,11 @@ class CardController extends Controller
         }
     }
 
-    public function undone(int $id)
+    public function undone($board,int $id)
     {
         try {
+
+            $this->checkPermission($board);
 
             $card = Card::find($id);
            
@@ -160,10 +181,12 @@ class CardController extends Controller
         }
     }
 
-    public function delete(int $id)
+    public function delete($board,int $id)
     {
         try {
-            // TODO: Проверять пренадлежность к владельцу
+            $this->checkPermission($board);
+          
+
             Card::destroy($id);
 
             return response()->json([

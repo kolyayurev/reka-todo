@@ -19,8 +19,8 @@ export default{
         },
         postAxios(url,data,
             successCallback     = (r) => { this.successMsg(); },
-            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},
-            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.message);},
+            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.msg);},
+            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.msg);},
             defaultCallback     = (r) => { this.warningMsg(); },
             catchCallback       = (e) => { this.errorMsg(); },
             finallyCallback     = (r) => {}
@@ -54,8 +54,8 @@ export default{
         },
         putAxios(url,data,
             successCallback     = (r) => { this.successMsg(); },
-            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},
-            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.message);},
+            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.msg);},
+            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.msg);},
             defaultCallback     = (r) => { this.warningMsg(); },
             catchCallback       = (e) => { this.errorMsg(); },
             finallyCallback     = (r) => {}
@@ -90,8 +90,8 @@ export default{
        
         getAxios(url,data,
             successCallback     = (r) => { this.successMsg(); },
-            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},
-            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.message);},
+            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.msg);},
+            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.msg);},
             defaultCallback     = (r) => { this.warningMsg(); },
             catchCallback       = (e) => { this.errorMsg(); },
             finallyCallback     = (r) => {}
@@ -125,8 +125,8 @@ export default{
         },
         deleteAxios(url,
             successCallback     = (r) => { this.successMsg(); },
-            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.message);},
-            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.message);},
+            validationCallback  = (r) => { this.warningMsg('Не удалось',r.data.msg);},
+            errorCallback       = (r) => { this.errorMsg('Не удалось',r.data.msg);},
             defaultCallback     = (r) => { this.warningMsg(); },
             catchCallback       = (e) => { this.errorMsg(); },
             finallyCallback     = (r) => {}

@@ -2,7 +2,8 @@
 
 return [
     'errors' => [
-        'something_wrong' => 'Что-то не так..'
+        'something_wrong' => 'Что-то не так..',
+        'permission_denied' => 'У вас нет прав'
     ],
     'messages'=>[
         'success'=> 'Успешно',

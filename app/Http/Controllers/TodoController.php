@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -26,14 +27,19 @@ class TodoController extends Controller
     public function index()
     {
         $boards = Board::byUser()->get();
-        $guestBoards = auth()->user()->guestBoards()->with(['user'=>function($q){$q->select('id','email');}])->get();
+        $guestBoards = auth()->user()->guestBoards()->where(['read'=>true])->with(['user'=>function($q){$q->select('id','email');}])->get();
 
         return view('todo.index',compact('boards','guestBoards'));
     }
 
     public function board($id)
     {
+        
         $board = Board::findOrFail($id);
+
+        if (!Gate::allows('read-board', $board)) {
+            abort(403);
+        }
 
         return view('todo.board',compact('board'));
     }

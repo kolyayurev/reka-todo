@@ -209,7 +209,7 @@ export default {
         },
         deleteCard(id){
             var _this = this;
-            this.deleteAxios('/ajax/todo/card/'+id,  function (response) {
+            this.deleteAxios('/ajax/todo/board/'+this.board.id+'/card/'+id,  function (response) {
                 _this.loadBoard()
             });
         },
@@ -227,7 +227,7 @@ export default {
             let formData = new FormData(this.$refs.cardForm);
             formData.set('tags', JSON.stringify(this.cardForm.tags));
 
-            this.postAxios(this.isEdit?'/ajax/todo/card/'+this.cardForm.id:'/ajax/todo/card/', formData, function (response) {
+            this.postAxios(this.isEdit?'/ajax/todo/board/'+this.board.id+'/card/'+this.cardForm.id:'/ajax/todo/board/'+this.board.id+'/card/', formData, function (response) {
                 _this.closeCardDialog();
                 _this.clearCardForm();
                 _this.clearTagForm();
@@ -260,15 +260,27 @@ export default {
         
         toDone(id){
             var _this = this;
-            this.putAxios('/ajax/todo/card/'+id+'/done', {}, function (response) {
+            this.putAxios('/ajax/todo/board/'+this.board.id+'/card/'+id+'/done', {}, function (response) {
                 _this.loadBoard()
-            });
+            },
+            ()=>{},
+            (r)=>{
+                _this.errorMsg('Не удалось',r.data.msg);
+                _this.loadBoard()
+            },
+            );
         },
         toUndone(id){
             var _this = this;
-            this.putAxios('/ajax/todo/card/'+id+'/undone', {}, function (response) {
+            this.putAxios('/ajax/todo/board/'+this.board.id+'/card/'+id+'/undone', {}, function (response) {
                 _this.loadBoard()
-            });
+            },
+            ()=>{},
+            (r)=>{
+                _this.errorMsg('Не удалось',r.data.msg);
+                _this.loadBoard()
+            },
+            );
         },
         onChangeDone(card){
             card.done ? this.toDone(card.id) : this.toUndone(card.id)

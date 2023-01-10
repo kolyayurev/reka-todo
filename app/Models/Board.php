@@ -32,7 +32,7 @@ class Board extends Model
     public function guests()
     {
         return $this->belongsToMany(User::class,'board_user')
-        // ->using(Permission::class)
+        ->using(Permission::class)
         ->withPivot('read','write');
     }
 }

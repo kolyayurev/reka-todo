@@ -28,7 +28,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('read-board', function (User $user, Board $board) {
-            return $user->id === $board->user_id ;
+            return $user->id === $board->user_id || $user->guestBoards()->where(['board_id'=>$board->id,'read'=>true])->exists();
+        });
+        Gate::define('write-board', function (User $user, Board $board) {
+            return $user->id === $board->user_id || $user->guestBoards()->where(['board_id'=>$board->id,'write'=>true])->exists();
         });
     }
 }
