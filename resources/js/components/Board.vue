@@ -97,6 +97,7 @@
                 <div class="mb-3">
                     <label for="tagInput" class="form-label">Теги</label>
                     <input class="form-control"  :class="{ 'is-invalid' : v$.tagForm.name.$error }"  placeholder="Тег" id="tagInput" v-model="tagForm.name">
+                    <div class="form-text" v-if="tagForm.name">Чтобы добавить нажмите Enter</div>
                     <div class="invalid-feedback" >
                         Поле не должно быть пустым
                     </div>
