@@ -38,7 +38,7 @@ class CardController extends Controller
             $file = $request->file($field);
             $extension = $file->getClientOriginalExtension();
 
-            $directory =  'cards/'.$model->id.'/';
+            $directory =  'cards/'.$model->id;
 
             $name = Str::replaceLast('.'.$extension, '', $file->hashName());
 
@@ -46,13 +46,13 @@ class CardController extends Controller
 
             $path = File::putFileAs($directory,$file,$filename);
 
+
             $thumbnail_filename = $name.'-150x150.'.$extension;
 
             $thumbnail = Image::make($file)->fit(150,150,function ($constraint) {
                 $constraint->aspectRatio();
             });
-
-            File::put($directory.$thumbnail_filename, $thumbnail->encode($extension)->encoded);
+            File::put($directory.'/'.$thumbnail_filename, $thumbnail->encode($extension)->encoded);
 
             return $path;
             
