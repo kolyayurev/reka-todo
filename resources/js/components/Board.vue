@@ -48,21 +48,21 @@
                                         <button class="card-action" @click="editCard(card)" ><i class="bi bi-pencil-fill"></i></button>
                                         <button class="card-action" @click="deleteCard(card.id)"><i class="bi bi-trash-fill"></i></button>
                                     </div>
-                                   
+
                                 </div>
                                 <div class="card mb-3"  v-if="!sortedList(list.cards).length" >
                                     <div class="card-header">
                                         <p class="text-center mb-0">Здесь ничего нет  </p>
                                     </div>
-                                </div>  
-                                
+                                </div>
+
                                 <button type="button" class="btn btn-success w-100" @click="addCard(list.id)">Добавить</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-          
+
         </div>
     </div>
     <CModal :visible="visibleCardDialog" @close="closeCardDialog" >
@@ -75,6 +75,13 @@
 
                 <div class="mb-3">
                     <input class="form-control"  name="name" :class="{ 'is-invalid' : v$.cardForm.name.$error }" placeholder="Наименование" v-model="cardForm.name">
+                    <div class="invalid-feedback" >
+                        Поле не должно быть пустым
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control"  name="description" :class="{ 'is-invalid' : v$.cardForm.description.$error }" placeholder="Описание" v-model="cardForm.description">
+                    </textarea>
                     <div class="invalid-feedback" >
                         Поле не должно быть пустым
                     </div>
@@ -102,7 +109,7 @@
                         Поле не должно быть пустым
                     </div>
                 </div>
-                <span class="badge text-bg-success me-1 mb-1 tag" 
+                <span class="badge text-bg-success me-1 mb-1 tag"
                     v-for="(tag,index) in cardForm.tags" :key="tag"
                     @click="removeTag(index)"
                     >
@@ -111,7 +118,7 @@
                 <div class="mb-3">
                     <label class="form-label">Существующие теги</label>
                     <div class="clearfix"></div>
-                    <span class="badge text-bg-primary me-1 mb-1 tag" 
+                    <span class="badge text-bg-primary me-1 mb-1 tag"
                             v-for="tag in filterTags" :key="tag" @click="addTag(tag)">
                             {{ tag.name }}
                     </span>
@@ -147,6 +154,7 @@ export default {
             isEdit: false,
             cardForm:{
                 name:null,
+                description:null,
                 list_id: null,
                 tags:[]
             },
@@ -159,7 +167,7 @@ export default {
         }
     },
     computed:{
-        
+
         filterTags(){
             let  tagNames =  this.cardForm.tags.map(tag => tag.name);
             return  tagNames.length ? this.board.tags.filter((tag) => !tagNames.includes(tag.name)): this.board.tags;
@@ -169,6 +177,7 @@ export default {
         return {
             cardForm: {
                 name: { required,  maxLength: maxLength(255), },
+                description: { maxLength: maxLength(1024), },
             },
             tagForm: {
                 name: { required,  maxLength: maxLength(255), },
@@ -202,7 +211,7 @@ export default {
             this.openCardDialog();
         },
         addCard(listId){
-            this.disableEditMode();                
+            this.disableEditMode();
             this.clearCardForm();
             this.clearTagForm();
             this.cardForm.list_id =  listId;
@@ -236,7 +245,7 @@ export default {
                     _this.disableEditMode();
                 _this.loadBoard();
             });
-          
+
         },
         async submitTagForm(){
             const valid = await this.v$.tagForm.$validate()
@@ -258,7 +267,7 @@ export default {
         removeTag(index){
             this.cardForm.tags.splice(index, 1);
         },
-        
+
         toDone(id){
             var _this = this;
             this.putAxios('/ajax/todo/board/'+this.board.id+'/card/'+id+'/done', {}, function (response) {
@@ -295,7 +304,7 @@ export default {
                 cards = _.filter(cards,function( card ) { return card.name.indexOf( _this.search ) !== -1; });
             if(this.searchTags.length)
                 cards = _.filter(cards,function( card ) { return card.tags.filter((tag) => _this.searchTags.includes(tag.name) ).length; });
-            
+
             cards.sort((a, b) =>  a.id > b.id ?  -1 : 1);
             cards.sort((a, b) =>  (a.done === b.done)? 0 : a.done? 1 : -1);
 
@@ -328,8 +337,8 @@ export default {
     cursor: pointer;
 }
 .card-modal
-{   
-    
+{
+
     .image-box{
         display: flex;
         position: relative;

@@ -30,7 +30,7 @@ class CardController extends Controller
         return true;
     }
 
-   
+
     protected function upload($request,$field,$model) : string | null
     {
         if ($request->hasFile($field)) {
@@ -55,17 +55,17 @@ class CardController extends Controller
             File::put($directory.'/'.$thumbnail_filename, $thumbnail->encode($extension)->encoded);
 
             return $path;
-            
+
         }
 
         return is_string($request->{$field})? $request->{$field}: null;
     }
 
-    
+
     public function store(CardRequest $request, $board)
     {
         try {
-            
+
             $this->checkPermission($board);
 
             DB::transaction(function()  use($request){
@@ -102,6 +102,7 @@ class CardController extends Controller
 
                 $card = Card::find($id);
                 $card->name = $request->name;
+                $card->description = $request->description;
                 $card->list_id = $request->list_id;
                 $card->update();
 
@@ -146,7 +147,7 @@ class CardController extends Controller
             $this->checkPermission($board);
 
             $card = Card::find($id);
-           
+
             $card->toDone()->save();
 
             return response()->json([
@@ -167,9 +168,9 @@ class CardController extends Controller
             $this->checkPermission($board);
 
             $card = Card::find($id);
-           
+
             $card->toUndone()->save();
-            
+
             return response()->json([
                 'status' => 'success',
             ]);
@@ -185,7 +186,7 @@ class CardController extends Controller
     {
         try {
             $this->checkPermission($board);
-          
+
 
             Card::destroy($id);
 
@@ -199,6 +200,6 @@ class CardController extends Controller
             ], 200);
         }
     }
-   
-   
+
+
 }
